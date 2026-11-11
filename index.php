@@ -9,6 +9,8 @@ if (!isset($_SESSION['usuario_id'])) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/catalogo.css">
     <title>Bienvenido</title>
 </head>
     <body>

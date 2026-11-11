@@ -19,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (mysqli_stmt_num_rows($stmt_check) > 0) {
             $mensaje_error = "El correo electrónico ya está registrado.";
         } else {
-            // 2. Encriptar e insertar el nuevo usuario
             $password_encriptada = password_hash($password_ingresada, PASSWORD_DEFAULT);
             $sql_insert = "INSERT INTO usuarios (nombre_completo, email, password) VALUES (?, ?, ?)";
             $stmt_insert = mysqli_prepare($conexion, $sql_insert);
@@ -65,6 +64,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         <button type="submit">Crear Cuenta</button>
     </form>
+
+    <div class="registro-login-link">
+    <p>¿Ya tenés una cuenta?</p>
+    <a href="login.php" class="btn-secundario">Iniciar Sesión</a>
+</div>
 
 </body>
 </html>

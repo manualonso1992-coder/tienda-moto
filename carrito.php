@@ -13,38 +13,60 @@ if (isset($_GET['accion']) && $_GET['accion'] === 'vaciar') {
     exit();
 }
 
+if (isset($_GET['accion']) && $_GET['accion'] === 'eliminar' && isset($_GET['id'])) {
+    $id_eliminar = (int)$_GET['id'];
+    unset($_SESSION['carrito'][$id_eliminar]);
+    header("Location: carrito.php");
+    exit();
+}
+
 $items = [];
 $total_general = 0;
 
-if (!empty($_SESSION['carrito'])) {
-    $ids = array_keys($_SESSION['carrito']);
-    
-    $placeholders = implode(',', array_fill(0, count($ids), '?'));
-    $types = str_repeat('i', count($ids));
+if (!empty($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
+    $ids = array_map('intval', array_keys($_SESSION['carrito']));
+    $ids_validos = array_filter($ids, function($id) { return $id > 0; });
 
-    $sql = "SELECT m.*, b.nombre AS marca_nombre 
-            FROM motos m 
-            JOIN marcas b ON m.marca_id = b.id 
-            WHERE m.id IN ($placeholders)";
+    if (!empty($ids_validos)) {
+        $placeholders = implode(',', array_fill(0, count($ids_validos), '?'));
+        $types = str_repeat('i', count($ids_validos));
 
-    $stmt = mysqli_prepare($conexion, $sql);
-    mysqli_stmt_bind_param($stmt, $types, ...$ids);
-    mysqli_stmt_execute($stmt);
-    $resultado = mysqli_stmt_get_result($stmt);
+        $sql = "SELECT m.*, b.nombre AS marca_nombre 
+                FROM motos m 
+                JOIN marcas b ON m.marca_id = b.id 
+                WHERE m.id IN ($placeholders)";
 
-    while ($row = mysqli_fetch_assoc($resultado)) {
-        $cantidad = $_SESSION['carrito'][$row['id']];
-        $subtotal = $row['precio'] * $cantidad;
-        $total_general += $subtotal;
+        $stmt = mysqli_prepare($conexion, $sql);
+        mysqli_stmt_bind_param($stmt, $types, ...$ids_validos);
+        mysqli_stmt_execute($stmt);
+        $resultado = mysqli_stmt_get_result($stmt);
 
-        $items[] = [
-            'id'       => $row['id'],
-            'marca'    => $row['marca_nombre'],
-            'modelo'   => $row['modelo'],
-            'precio'   => $row['precio'],
-            'cantidad' => $cantidad,
-            'subtotal' => $subtotal
-        ];
+        while ($row = mysqli_fetch_assoc($resultado)) {
+            $id_moto = (int)$row['id'];
+            $cantidad = isset($_SESSION['carrito'][$id_moto]) ? (int)$_SESSION['carrito'][$id_moto] : 1;
+            if ($cantidad < 1) $cantidad = 1;
+
+            $subtotal = $row['precio'] * $cantidad;
+            $total_general += $subtotal;
+
+            $nombre_img = !empty($row['imagen']) ? $row['imagen'] : 'Moto_Default.webp';
+            $ruta_fisica = __DIR__ . '/imagenes_catalogo/' . $nombre_img;
+            $img_final = file_exists($ruta_fisica) ? 'imagenes_catalogo/' . $nombre_img : 'imagenes_catalogo/Moto_Default.webp';
+
+            $nombre_mostrar = $row['modelo'];
+            if (stripos($row['modelo'], $row['marca_nombre']) === false) {
+                $nombre_mostrar = $row['marca_nombre'] . ' ' . $row['modelo'];
+            }
+
+            $items[] = [
+                'id'       => $id_moto,
+                'nombre'   => $nombre_mostrar,
+                'precio'   => $row['precio'],
+                'cantidad' => $cantidad,
+                'subtotal' => $subtotal,
+                'imagen'   => $img_final
+            ];
+        }
     }
 }
 ?>
@@ -52,75 +74,76 @@ if (!empty($_SESSION['carrito'])) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Carrito de Compras - Marketplace</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/carrito.css">
+    <title>Tu Carrito de Compras</title>
+    <link rel="stylesheet" href="style.css?v=9.0">
+    <link rel="stylesheet" href="carrito.css?v=9.0">
 </head>
 <body>
+
     <header class="header-global">
-        <h1>¡Bienvenido/a, <?php echo htmlspecialchars($_SESSION['usuario_nombre']); ?>! 👋</h1>
-        <nav>
-            <a href="index.php" style="margin-right: 15px; text-decoration: none; font-weight: bold; color: #007bff;">Catálogo</a>
+        <div class="nav-links">
+            <a href="index.php" class="btn-nav">← Volver al Catálogo</a>
             <a href="logout.php" class="btn-logout">Cerrar Sesión</a>
-        </nav>
+        </div>
     </header>
 
-    <main>
+    <main class="carrito-wrapper">
         <h2>Tu Carrito de Compras</h2>
 
         <?php if (empty($items)): ?>
-            <p style="margin-top: 15px;">El carrito está vacío. <a href="index.php">Volver al catálogo para agregar motos</a>.</p>
+            <div class="carrito-vacio">
+                <p>El carrito está vacío.</p>
+                <a href="index.php" class="btn-nav">Volver al catálogo para agregar motos</a>
+            </div>
         <?php else: ?>
-            <table class="carrito-tabla">
-                <thead>
-                    <tr>
-                        <th>Moto</th>
-                        <th>Precio Unitario</th>
-                        <th>Cantidad</th>
-                        <th>Subtotal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($items as $item): ?>
-                        <tr>
-                            <td><strong>
-                                <?php
-                                    echo htmlspecialchars($item['marca'] . ' ' . $item['modelo']); 
-                                ?>
-                            </strong></td>
-                            <td>USD $
-                                <?php
-                                     echo number_format($item['precio'], 2); 
-                                ?>
-                            </td>
-                            <td><?php
-                                     echo $item['cantidad']; 
-                                ?>
-                            </td>
-                            <td>USD $
-                                <?php
-                                     echo number_format($item['subtotal'], 2); 
-                                ?>
-                            </td>
-                        </tr>
-                    <?php 
-                        endforeach;
-                    ?>
-                </tbody>
-            </table>
+            
+            <div class="carrito-lista">
+                <?php foreach ($items as $item): ?>
+                    <article class="item-card">
+                        <div class="item-img-box">
+                            <img src="<?php echo htmlspecialchars($item['imagen']); ?>" 
+                                 alt="<?php echo htmlspecialchars($item['nombre']); ?>">
+                        </div>
 
-            <div class="carrito-acciones">
-                <a href="carrito.php?accion=vaciar" class="btn-vaciar">Vaciar Carrito</a>
-                <div class="total-contenedor">
-                    Total: USD $
-                    <?php
-                         echo number_format($total_general, 2);
-                    ?>
+                        <div class="item-detalles">
+                            <p class="dato-row">
+                                <span class="label">Moto:</span>
+                                <strong class="val-nombre"><?php echo htmlspecialchars($item['nombre']); ?></strong>
+                            </p>
+                            <p class="dato-row">
+                                <span class="label">Precio unitario:</span>
+                                <span>USD $<?php echo number_format($item['precio'], 2); ?></span>
+                            </p>
+                            <p class="dato-row">
+                                <span class="label">Cantidad:</span>
+                                <span><?php echo $item['cantidad']; ?></span>
+                            </p>
+                            <p class="dato-row">
+                                <span class="label">Subtotal:</span>
+                                <strong class="val-subtotal">USD $<?php echo number_format($item['subtotal'], 2); ?></strong>
+                            </p>
+                        </div>
+
+                        <div class="item-accion">
+                            <a href="carrito.php?accion=eliminar&id=<?php echo $item['id']; ?>" class="btn-eliminar">Quitar</a>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+
+            <div class="carrito-resumen">
+                <div class="total-box">
+                    <span>Total General:</span>
+                    <strong>USD $<?php echo number_format($total_general, 2); ?></strong>
+                </div>
+                <div class="acciones-carrito">
+                    <a href="carrito.php?accion=vaciar" class="btn-vaciar">Vaciar Carrito</a>
+                    <button class="btn-finalizar" onclick="alert('¡Gracias por tu compra!')">Finalizar Compra</button>
                 </div>
             </div>
-        <?php 
-            endif;
-        ?>
+
+        <?php endif; ?>
     </main>
+
 </body>
 </html>

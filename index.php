@@ -2,17 +2,15 @@
 session_start();
 require_once 'conexion.php';
 
-// Verificar autenticación
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: login.php");
     exit();
 }
 
-// Obtener marcas para los botones de filtro
+
 $sql_marcas = "SELECT * FROM marcas ORDER BY nombre ASC";
 $res_marcas = mysqli_query($conexion, $sql_marcas);
 
-// Filtrado por marca si viene por GET
 $marca_id = isset($_GET['marca_id']) ? (int)$_GET['marca_id'] : 0;
 
 if ($marca_id > 0) {
@@ -69,12 +67,26 @@ if ($marca_id > 0) {
             ?>
         </div>
 
+        
         <section class="motos-grid">
             <?php 
             if (mysqli_num_rows($res_motos) > 0) {
                 while ($moto = mysqli_fetch_assoc($res_motos)) { 
+                    $nombre_imagen = !empty($moto['imagen']) ? $moto['imagen'] : 'Moto_Default.webp';
+                    $ruta_fisica = __DIR__ . '/imagenes_catalogo/' . $nombre_imagen;
+
+                    if (file_exists($ruta_fisica)) {
+                        $imagen_final = 'imagenes_catalogo/' . $nombre_imagen;
+                    } else {
+                        $imagen_final = 'imagenes_catalogo/Moto_Default.webp';
+                    }
             ?>
                     <article class="moto-card">
+                        <div class="moto-img-container">
+                            <img src="<?php echo htmlspecialchars($imagen_final); ?>" 
+                                 alt="<?php echo htmlspecialchars($moto['modelo']); ?>">
+                        </div>
+
                         <span class="marca-badge"><?php echo htmlspecialchars($moto['marca_nombre']); ?></span>
                         <h3><?php echo htmlspecialchars($moto['modelo']); ?></h3>
                         <p class="precio">USD $<?php echo number_format($moto['precio'], 2); ?></p>
@@ -82,10 +94,6 @@ if ($marca_id > 0) {
                     </article>
             <?php 
                 }
-            } else { 
-            ?>
-                <p>No se encontraron motocicletas disponibles para esta marca.</p>
-            <?php 
             } 
             ?>
         </section>

@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $sql_check = "SELECT id FROM usuarios WHERE email = ?";
         $stmt_check = mysqli_prepare($conexion, $sql_check);
-        mysqli_bind_param($stmt_check, "s", $email);
+        mysqli_stmt_bind_param($stmt_check, "s", $email);
         mysqli_stmt_execute($stmt_check);
         mysqli_stmt_store_result($stmt_check);
 
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $password_encriptada = password_hash($password_ingresada, PASSWORD_DEFAULT);
             $sql_insert = "INSERT INTO usuarios (nombre_completo, email, password) VALUES (?, ?, ?)";
             $stmt_insert = mysqli_prepare($conexion, $sql_insert);
-            mysqli_bind_param($stmt_insert, "sss", $nombre_completo, $email, $password_encriptada);
+            mysqli_stmt_bind_param($stmt_insert, "sss", $nombre_completo, $email, $password_encriptada);
             
             if (mysqli_stmt_execute($stmt_insert)) {
                 $mensaje_exito = "¡Usuario registrado correctamente! Inicie sesión.";

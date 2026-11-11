@@ -2,7 +2,7 @@
 session_start();
 require_once 'conexion.php';
 
-$error = '';.
+$error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($email) || empty($password)) {
         $error = "Por favor, completa todos los campos.";
     } else {
-        // 4. Consulta preparada para buscar el usuario por email
         $sql = "SELECT id, nombre_completo, password FROM usuarios WHERE email = ?";
         $stmt = mysqli_prepare($conexion, $sql);
 
@@ -22,25 +21,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $resultado = mysqli_stmt_get_result($stmt);
 
             if ($usuario = mysqli_fetch_assoc($resultado)) {
-                // 5. Verificar la contraseña con el hash de la BD
+                
                 if (password_verify($password, $usuario['password'])) {
-                    // Regenerar el ID de sesión por seguridad
+                    
                     session_regenerate_id(true);
 
-                    // Guardar datos en la superglobal $_SESSION
                     $_SESSION['usuario_id'] = $usuario['id'];
-                    $_SESSION['usuario_nombre'] = $usuario['nombre_completo'];
+                    $_SESSION['usuario_nombre'] = $usuario['nombre_completo'];   
 
-                    // 6. Gestionar la preferencia con Cookie ($_COOKIE)
-                    if ($recordar) {
-                        // Guarda la cookie por 30 días
+                    if ($recordar) {                     
                         setcookie('email_recordado', $email, time() + (86400 * 30), "/");
-                    } else {
-                        // Elimina la cookie si no se marca
+                    } else {                       
                         setcookie('email_recordado', '', time() - 3600, "/");
                     }
-
-                    // Redireccionar al usuario a la página principal
                     header("Location: index.php");
                     exit();
                 } else {

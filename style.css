@@ -20,7 +20,7 @@ body {
     padding: 20px;
 }
 
-/* Header global */
+
 .header-global {
     background-color: var(--color-card-bg);
     padding: 15px 20px;
@@ -43,5 +43,86 @@ body {
 }
 
 .btn-logout:hover {
+    text-decoration: underline;
+}
+
+/* Estilos para Login y Registro */
+.auth-container {
+    max-width: 400px;
+    margin: 50px auto;
+    background-color: var(--color-card-bg);
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.auth-container h2 {
+    margin-bottom: 20px;
+    color: var(--color-primary);
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--color-text);
+}
+
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.form-group input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.btn-auth {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-auth:hover {
+    background-color: #1a252f;
+}
+
+.auth-link {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.auth-link:hover {
     text-decoration: underline;
 }

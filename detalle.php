@@ -34,38 +34,67 @@ if (!$moto) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title><?php echo htmlspecialchars($moto['marca_nombre'] . ' ' . $moto['modelo']); ?> - Detalle</title>
+    <title><?php echo htmlspecialchars($moto['marca_nombre'] . ' ' . $moto['modelo']); ?>Detalle</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="detalle.css">
 </head>
 <body>
     <header>
-        <h1>¡Bienvenido/a, <?php echo htmlspecialchars($_SESSION['usuario_nombre']); ?>! 👋</h1>
+        <h1>¡Bienvenido/a, 
+            <?php 
+                echo htmlspecialchars($_SESSION['usuario_nombre']);
+            ?>
+        </h1>
         <a href="logout.php">Cerrar Sesión</a>
     </header>
 
     <main>
-        <a href="index.php" class="btn-volver">← Volver al Catálogo</a>
+        <a href="index.php" class="btn-volver">Volver al Catálogo</a>
 
         <article class="tarjeta-detalle">
-            <span class="marca-tag"><?php echo htmlspecialchars($moto['marca_nombre']); ?></span>
+            <span class="marca-tag">
+                <?php
+                    echo htmlspecialchars($moto['marca_nombre']);
+                ?>
+            </span>
             
-            <h1><?php echo htmlspecialchars($moto['modelo']); ?></h1>
+            <h1>
+                <?php
+                    echo htmlspecialchars($moto['modelo']);
+                ?>
+            </h1>
             
-            <p><strong>Cilindrada:</strong> <?php echo htmlspecialchars($moto['cilindrada']); ?></p>
+            <p><strong>Cilindrada:</strong>
+                <?php
+                    echo htmlspecialchars($moto['cilindrada']); ?></p>
             
             <p><strong>Descripción:</strong></p>
-            <p><?php echo htmlspecialchars($moto['descripcion']); ?></p>
+            <p><?php 
+                    echo htmlspecialchars($moto['descripcion']);
+                ?>
+            </p>
             
             <h2 class="precio-texto">
-                Precio: USD $<?php echo number_format($moto['precio'], 2); ?>
+                Precio: USD $
+                <?php 
+                    echo number_format($moto['precio'], 2);
+                ?>
             </h2>
 
             <hr>
-
-            <button type="button" class="btn-agregar">
-                Agregar al Carrito
-            </button>
+            <form action="add_carrito.php" method="POST">
+    <input type="hidden" name="id" value="
+                <?php 
+                    echo $moto['id']; 
+                ?>
+                ">
+    
+    <label for="cantidad">Cantidad:</label>
+    <input type="number" id="cantidad" name="cantidad" value="1" min="1" style="width: 60px; padding: 5px; margin-bottom: 10px;">
+    <br>
+    
+    <button type="submit" class="btn-agregar">Agregar al Carrito</button>
+</form>
         </article>
     </main>
 </body>

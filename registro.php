@@ -39,8 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registro - Catálogo de Motos 🏍️</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Registro - Catálogo de Motos</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 

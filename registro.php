@@ -2,7 +2,6 @@
 require_once 'conexion.php';
 
 $mensaje_error = '';
-$mensaje_exito = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -35,16 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Registro - Catálogo de Motos</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
 
+$titulo_pagina = "Registro - Catálogo de Motos";
+$ocultar_nav = true;
+require_once 'includes/header.php';
+
+?>
     <div class="auth-container">
         <h2>Registro de Usuario</h2>
 

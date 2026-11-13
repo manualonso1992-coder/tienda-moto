@@ -23,37 +23,14 @@ if (!$moto) {
     header("Location: index.php");
     exit();
 }
-
-// 1. Definimos la imagen o la por defecto
 $nombre_imagen = !empty($moto['imagen']) ? $moto['imagen'] : 'Moto_Default.webp';
-
-// 2. Ruta física absoluta para validar que el archivo exista en el disco
 $ruta_fisica = __DIR__ . '/imagenes_catalogo/' . $nombre_imagen;
+$imagen_final = file_exists($ruta_fisica) ? 'imagenes_catalogo/' . $nombre_imagen : 'imagenes_catalogo/Moto_Default.webp';
 
-// 3. Asignación correcta de la ruta para el navegador
-if (file_exists($ruta_fisica)) {
-    $imagen_final = 'imagenes_catalogo/' . $nombre_imagen;
-} else {
-    $imagen_final = 'imagenes_catalogo/Moto_Default.webp';
-}
+$titulo_pagina = $moto['modelo'] . " - Detalle";
+$css_extra = "detalle.css";
+require_once 'includes/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title><?php echo htmlspecialchars($moto['modelo']); ?> - Detalle</title>
-    <link rel="stylesheet" href="style.css?v=1.2">
-    <link rel="stylesheet" href="detalle.css?v=1.2">
-</head>
-<body>
-
-    <header class="header-global">
-        <div class="nav-links">
-            <a href="index.php" class="btn-nav">← Volver al Catálogo</a>
-            <a href="carrito.php" class="btn-nav">Ver Carrito</a>
-            <a href="logout.php" class="btn-logout">Cerrar Sesión</a>
-        </div>
-    </header>
 
     <main class="detalle-wrapper">
         <article class="detalle-card">
@@ -93,3 +70,5 @@ if (file_exists($ruta_fisica)) {
 
 </body>
 </html>
+
+<?php require_once 'includes/footer.php'; ?>

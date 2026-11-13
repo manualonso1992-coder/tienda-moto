@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['moto_id'])) {
         $_SESSION['carrito'][$moto_id] = $cantidad;
     }
 
+   $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => '¡Motocicleta agregada al carrito correctamente!'];
     session_write_close();
     header("Location: carrito.php");
     exit();

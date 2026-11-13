@@ -8,9 +8,9 @@ if (session_status() === PHP_SESSION_NONE) {
 <head>
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($titulo_pagina ?? 'Tienda Moto'); ?></title>
-    <link rel="stylesheet" href="style.css?v=10.0">
+    <link rel="stylesheet" href="css/style.css?v=10.0">
     <?php if (!empty($css_extra)): ?>
-        <link rel="stylesheet" href="<?php echo htmlspecialchars($css_extra); ?>?v=10.0">
+        <link rel="stylesheet" href="css/<?php echo htmlspecialchars($css_extra); ?>?v=10.0">
     <?php endif; ?>
 </head>
 <body>

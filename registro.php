@@ -1,11 +1,14 @@
 <?php
 require_once 'conexion.php';
 
+$mensaje_error = '';
+$mensaje_exito = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $nombre_completo = trim($_POST['nombre_completo']);
-    $email = trim($_POST['email']);
-    $password_ingresada = trim($_POST['password']);
+    $nombre_completo = trim($_POST['nombre_completo'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $password_ingresada = trim($_POST['password'] ?? '');
 
     if (empty($nombre_completo) || empty($email) || empty($password_ingresada)) {
         $mensaje_error = "Todos los campos son obligatorios.";
@@ -25,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mysqli_stmt_bind_param($stmt_insert, "sss", $nombre_completo, $email, $password_encriptada);
             
             if (mysqli_stmt_execute($stmt_insert)) {
-                $mensaje_exito = "¡Usuario registrado correctamente! Inicie sesión.";
+                $mensaje_exito = "¡Usuario registrado correctamente! Iniciá sesión.";
             } else {
                 $mensaje_error = "Hubo un error al registrar el usuario. Vuelva a intentarlo.";
             }
@@ -33,42 +36,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Registro - Catálogo de Motos</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h2>Registro de Usuario</h2>
-    <?php if (!empty($mensaje_error)) { ?>
-        <p class="mensaje error"><?php echo $mensaje_error; ?></p>
-    <?php } ?>
+    <div class="auth-container">
+        <h2>Registro de Usuario</h2>
 
-    <?php if (!empty($mensaje_exito)) { ?>
-        <p class="mensaje exito"><?php echo $mensaje_exito; ?></p>
-    <?php } ?>
+        <?php if (!empty($mensaje_error)): ?>
+            <p style="color: #dc3545; margin-bottom: 15px; text-align: center; font-weight: bold;">
+                <?php echo htmlspecialchars($mensaje_error); ?>
+            </p>
+        <?php endif; ?>
 
-    <form action="registro.php" method="POST">
-        <label>Nombre Completo:</label>
-        <input type="text" name="nombre_completo">
-        
-        <label>Correo Electrónico:</label>
-        <input type="email" name="email">
-        
-        <label>Contraseña:</label>
-        <input type="password" name="password">
-        
-        <button type="submit">Crear Cuenta</button>
-    </form>
+        <?php if (!empty($mensaje_exito)): ?>
+            <p style="color: #28a745; margin-bottom: 15px; text-align: center; font-weight: bold;">
+                <?php echo htmlspecialchars($mensaje_exito); ?>
+            </p>
+        <?php endif; ?>
 
-    <div class="registro-login-link">
-    <p>¿Ya tenés una cuenta?</p>
-    <a href="login.php" class="btn-secundario">Iniciar Sesión</a>
-</div>
+        <form action="registro.php" method="POST">
+            <div class="form-group">
+                <label for="nombre_completo">Nombre Completo:</label>
+                <input type="text" id="nombre_completo" name="nombre_completo" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <button type="submit" class="btn-auth">Crear Cuenta</button>
+        </form>
+
+        <div class="registro-login-link">
+            <p>¿Ya tenés una cuenta?</p>
+            <a href="login.php" class="btn-secundario">Iniciar Sesión</a>
+        </div>
+    </div>
 
 </body>
 </html>

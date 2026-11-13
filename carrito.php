@@ -69,23 +69,11 @@ if (!empty($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
         }
     }
 }
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Tu Carrito de Compras</title>
-    <link rel="stylesheet" href="style.css?v=9.0">
-    <link rel="stylesheet" href="carrito.css?v=9.0">
-</head>
-<body>
 
-    <header class="header-global">
-        <div class="nav-links">
-            <a href="index.php" class="btn-nav">← Volver al Catálogo</a>
-            <a href="logout.php" class="btn-logout">Cerrar Sesión</a>
-        </div>
-    </header>
+$titulo_pagina = "Tu Carrito de Compras";
+$css_extra = "carrito.css";
+require_once 'includes/header.php';
+?>
 
     <main class="carrito-wrapper">
         <h2>Tu Carrito de Compras</h2>
@@ -147,3 +135,5 @@ if (!empty($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
 
 </body>
 </html>
+
+<?php require_once 'includes/footer.php'; ?>

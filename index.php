@@ -30,28 +30,15 @@ if ($marca_id > 0) {
                   ORDER BY m.id DESC";
     $res_motos = mysqli_query($conexion, $sql_motos);
 }
+
+$titulo_pagina = "Catálogo - Marketplace Motos";
+$css_extra = "catalogo.css";
+require_once 'includes/header.php';
+
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Catálogo - Marketplace Motos</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="catalogo.css">
-</head>
-<body>
-
-    
-    <header class="header-global">
-        <h1>¡Bienvenido/a, <?php echo htmlspecialchars($_SESSION['usuario_nombre'] ?? 'Usuario'); ?>! 👋</h1>
-        <nav style="display: flex; gap: 15px; align-items: center;">
-            <a href="carrito.php" style="text-decoration: none; font-weight: bold; color: #007bff;">Ver Carrito</a>
-            <a href="logout.php" class="btn-logout">Cerrar Sesión</a>
-        </nav>
-    </header>
-
     <main>
-        <h2>Catálogo de Motocicletas</h2>
+        
+    <h2>Catálogo de Motocicletas</h2>
         
         <div class="filtros-marcas">
             <a href="index.php" class="btn-filtro <?php echo ($marca_id === 0) ? 'activo' : ''; ?>">Todas</a>
@@ -96,8 +83,7 @@ if ($marca_id > 0) {
                 }
             } 
             ?>
-        </section>
-    </main>
-
-</body>
-</html>
+            </section>
+    </main> 
+    
+    <?php require_once 'includes/footer.php'; ?>

@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $titulo_pagina = "Registro - Catálogo de Motos";
 $ocultar_nav = true;
-require_once 'includes/header.php';
+require_once '../includes/header.php';
 
 ?>
     <div class="auth-container">
@@ -80,5 +80,4 @@ require_once 'includes/header.php';
         </div>
     </div>
 
-</body>
-</html>
+    <?php require_once '../includes/footer.php'; ?>

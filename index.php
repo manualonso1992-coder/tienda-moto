@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once 'conexion.php';
+require_once 'pags/conexion.php';
 
 if (!isset($_SESSION['usuario_id'])) {
-    header("Location: login.php");
+   header("Location: pags/login.php");
     exit();
 }
 
@@ -77,7 +77,7 @@ require_once 'includes/header.php';
                         <span class="marca-badge"><?php echo htmlspecialchars($moto['marca_nombre']); ?></span>
                         <h3><?php echo htmlspecialchars($moto['modelo']); ?></h3>
                         <p class="precio">USD $<?php echo number_format($moto['precio'], 2); ?></p>
-                        <a href="detalle.php?id=<?php echo $moto['id']; ?>" class="btn-ver-detalle">Ver Detalle</a>
+                        <a href="pags/detalle.php?id=<?php echo $moto['id']; ?>" class="btn-ver-detalle">Ver Detalle</a>
                     </article>
             <?php 
                 }

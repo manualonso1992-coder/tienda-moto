@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['moto_id'])) {
     header("Location: carrito.php");
     exit();
 } else {
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit();
 }
 ?>

@@ -50,8 +50,8 @@ if (!empty($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
             $total_general += $subtotal;
 
             $nombre_img = !empty($row['imagen']) ? $row['imagen'] : 'Moto_Default.webp';
-            $ruta_fisica = __DIR__ . '/imagenes_catalogo/' . $nombre_img;
-            $img_final = file_exists($ruta_fisica) ? 'imagenes_catalogo/' . $nombre_img : 'imagenes_catalogo/Moto_Default.webp';
+            $ruta_fisica = __DIR__ . '/../imagenes_catalogo/' . $nombre_img;
+            $img_final = file_exists($ruta_fisica) ? '/..imagenes_catalogo/' . $nombre_img : 'imagenes_catalogo/Moto_Default.webp';
 
             $nombre_mostrar = $row['modelo'];
             if (stripos($row['modelo'], $row['marca_nombre']) === false) {
@@ -72,7 +72,7 @@ if (!empty($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
 
 $titulo_pagina = "Tu Carrito de Compras";
 $css_extra = "carrito.css";
-require_once 'includes/header.php';
+require_once '../includes/header.php';
 ?>
 
     <main class="carrito-wrapper">
@@ -133,7 +133,4 @@ require_once 'includes/header.php';
         <?php endif; ?>
     </main>
 
-</body>
-</html>
-
-<?php require_once 'includes/footer.php'; ?>
+<?php require_once '../includes/footer.php'; ?>

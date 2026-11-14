@@ -20,16 +20,16 @@ $resultado = mysqli_stmt_get_result($stmt);
 $moto = mysqli_fetch_assoc($resultado);
 
 if (!$moto) {
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit();
 }
 $nombre_imagen = !empty($moto['imagen']) ? $moto['imagen'] : 'Moto_Default.webp';
-$ruta_fisica = __DIR__ . '/imagenes_catalogo/' . $nombre_imagen;
-$imagen_final = file_exists($ruta_fisica) ? 'imagenes_catalogo/' . $nombre_imagen : 'imagenes_catalogo/Moto_Default.webp';
+$ruta_fisica = __DIR__ . '/../imagenes_catalogo/' . $nombre_imagen;
+$imagen_final = file_exists($ruta_fisica) ? '../imagenes_catalogo/' . $nombre_imagen : 'imagenes_catalogo/Moto_Default.webp';
 
 $titulo_pagina = $moto['modelo'] . " - Detalle";
 $css_extra = "detalle.css";
-require_once 'includes/header.php';
+require_once '../includes/header.php';
 ?>
 
     <main class="detalle-wrapper">
@@ -68,7 +68,4 @@ require_once 'includes/header.php';
         </article>
     </main>
 
-</body>
-</html>
-
-<?php require_once 'includes/footer.php'; ?>
+<?php require_once '../includes/footer.php'; ?>

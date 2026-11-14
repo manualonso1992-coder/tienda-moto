@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     } else {
                         setcookie('email_recordado', '', time() - 3600, "/");
                     }
-                    header("Location: index.php");
+                    header("Location: ../index.php");
                     exit();
                 } else {
                     $error = "Credenciales incorrectas.";
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $titulo_pagina = "Iniciar Sesión - Tienda Moto";
 $ocultar_nav = true;
-require_once 'includes/header.php';
+require_once '../includes/header.php';
 ?>
 
 <div class="auth-container">
@@ -87,4 +87,4 @@ require_once 'includes/header.php';
     <a href="registro.php" class="auth-link">¿No tienes cuenta? Regístrate aquí</a>
 </div>
 
-<?php require_once 'includes/footer.php'; ?>
+<?php require_once '../includes/footer.php'; ?>

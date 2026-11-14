@@ -2,21 +2,22 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+$ruta_raiz = (basename(dirname($_SERVER['PHP_SELF'])) === 'pags') ? '../' : '';
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($titulo_pagina ?? 'Tienda Moto'); ?></title>
-    <link rel="stylesheet" href="css/style.css?v=10.0">
+    <link rel="stylesheet" href="<?php echo $ruta_raiz; ?>css/style.css?v=10.0">
     <?php if (!empty($css_extra)): ?>
-        <link rel="stylesheet" href="css/<?php echo htmlspecialchars($css_extra); ?>?v=10.0">
+        <link rel="stylesheet" href="<?php echo $ruta_raiz; ?>css/<?php echo htmlspecialchars($css_extra); ?>?v=10.0">
     <?php endif; ?>
 </head>
 <body>
     <header class="site-header">
         <div class="header-container">
-            <a href="index.php" class="site-logo">Tienda Moto</a>
+            <a href="<?php echo $ruta_raiz; ?>index.php" class="site-logo">Tienda Moto</a>
         </div>
     </header>
 

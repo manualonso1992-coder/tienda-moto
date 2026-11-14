@@ -116,7 +116,6 @@
     transform: scale(1.05);   
 }    
 
-/* Layout contenedor */
 .carrito-wrapper {
     max-width: 1000px;
     margin: 30px auto;
@@ -128,7 +127,6 @@
     margin-bottom: 20px;
 }
 
-/* Tabla del Carrito */
 .tabla-carrito {
     width: 100%;
     border-collapse: collapse;
@@ -155,7 +153,6 @@
     border-bottom: 1px solid #dee2e6;
 }
 
-/* Forzar tamaño de imagen dentro de la tabla */
 .col-img {
     width: 100px;
 }
@@ -168,7 +165,6 @@
     object-fit: contain;
 }
 
-/* Links y botones dentro de la tabla */
 .btn-eliminar {
     color: #dc3545;
     text-decoration: none;
@@ -179,7 +175,6 @@
     text-decoration: underline;
 }
 
-/* Zona inferior de resumen */
 .carrito-resumen {
     display: flex;
     justify-content: space-between;

@@ -27,7 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mysqli_stmt_bind_param($stmt_insert, "sss", $nombre_completo, $email, $password_encriptada);
             
             if (mysqli_stmt_execute($stmt_insert)) {
-                $mensaje_exito = "¡Usuario registrado correctamente! Iniciá sesión.";
+                $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => '¡Usuario registrado correctamente! Iniciá sesión.'];
+                header("Location: login.php");
+                exit();
             } else {
                 $mensaje_error = "Hubo un error al registrar el usuario. Vuelva a intentarlo.";
             }
@@ -50,9 +52,7 @@ require_once '../includes/header.php';
         <?php endif; ?>
 
         <?php if (!empty($mensaje_exito)): ?>
-            <p style="color: #28a745; margin-bottom: 15px; text-align: center; font-weight: bold;">
-                <?php echo htmlspecialchars($mensaje_exito); ?>
-            </p>
+            ...
         <?php endif; ?>
 
         <form action="registro.php" method="POST">

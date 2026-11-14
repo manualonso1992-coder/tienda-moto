@@ -13,6 +13,13 @@ if (isset($_GET['accion']) && $_GET['accion'] === 'vaciar') {
     exit();
 }
 
+if (isset($_GET['accion']) && $_GET['accion'] === 'comprar') {
+    unset($_SESSION['carrito']);
+    $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => '¡Gracias por tu compra! Tu pedido fue procesado con éxito.'];
+    header("Location: ../index.php");
+    exit();
+}
+
 if (isset($_GET['accion']) && $_GET['accion'] === 'eliminar' && isset($_GET['id'])) {
     $id_eliminar = (int)$_GET['id'];
     unset($_SESSION['carrito'][$id_eliminar]);
@@ -51,7 +58,7 @@ if (!empty($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
 
             $nombre_img = !empty($row['imagen']) ? $row['imagen'] : 'Moto_Default.webp';
             $ruta_fisica = __DIR__ . '/../imagenes_catalogo/' . $nombre_img;
-            $img_final = file_exists($ruta_fisica) ? '/..imagenes_catalogo/' . $nombre_img : 'imagenes_catalogo/Moto_Default.webp';
+            $img_final = file_exists($ruta_fisica) ? '/..imagenes_catalogo/' . $nombre_img : '../imagenes_catalogo/Moto_Default.webp';
 
             $nombre_mostrar = $row['modelo'];
             if (stripos($row['modelo'], $row['marca_nombre']) === false) {
@@ -81,7 +88,7 @@ require_once '../includes/header.php';
         <?php if (empty($items)): ?>
             <div class="carrito-vacio">
                 <p>El carrito está vacío.</p>
-                <a href="index.php" class="btn-nav">Volver al catálogo para agregar motos</a>
+                <a href="../index.php" class="btn-nav">Volver al catálogo para agregar motos</a>
             </div>
         <?php else: ?>
             
@@ -126,7 +133,7 @@ require_once '../includes/header.php';
                 </div>
                 <div class="acciones-carrito">
                     <a href="carrito.php?accion=vaciar" class="btn-vaciar">Vaciar Carrito</a>
-                    <button class="btn-finalizar" onclick="alert('¡Gracias por tu compra!')">Finalizar Compra</button>
+                   <a href="carrito.php?accion=comprar" class="btn-finalizar">Finalizar Compra</a>
                 </div>
             </div>
 

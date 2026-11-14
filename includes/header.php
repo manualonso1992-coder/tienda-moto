@@ -14,6 +14,11 @@ if (session_status() === PHP_SESSION_NONE) {
     <?php endif; ?>
 </head>
 <body>
+    <header class="site-header">
+        <div class="header-container">
+            <a href="index.php" class="site-logo">Tienda Moto</a>
+        </div>
+    </header>
 
 <?php if (!isset($ocultar_nav) || !$ocultar_nav): ?>
     <?php require_once __DIR__ . '/nav.php'; ?>

@@ -155,3 +155,27 @@ body {
 .btn-secundario:hover {
     background-color: #5a6268;
 }
+
+.site-header {
+    background-color: #1a1a1a;
+    padding: 15px 20px;
+    border-bottom: 3px solid #e63946;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.site-logo {
+    color: #ffffff;
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+}
+
+.site-logo:hover {
+    color: #e63946;
+}
